@@ -1,29 +1,40 @@
 package comparators;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        List<Person> people = Arrays.asList(new Person("Adam", "Nowak", 20),
-                new Person("Jan", "Nowak", 21), new Person("Jan", "Kowalski", 20));
+        Person person = new Person("Adam", "Kowalski", 21);
+        if (person.getSecondName().isPresent()) {
+            System.out.println(person.getSecondName().get().length());
+        }
 
-        Comparator<String> stringComparator1 = new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        };
-        Comparator<String> stringComparator2 = (o1, o2) -> o1.compareTo(o2);
-        Comparator<String> stringComparator3 = String::compareTo;
-        Person person1 = new Person().withAge(21).withName("Jan").withSurname("Kowalskiiiii");
-        Person person2 = new Person();
-        person2.withAge(12);
-        person2.withName("asdasdqwe");
-        person2.withSurname("asdqweqweasddqweqweqwweqwe");
-        Comparator<Person> comparator = Comparator.comparing(Person::getSurname).thenComparing(Person::getName);
-        people.sort(comparator.reversed());
-        System.out.println(people);
+        person.getSecondName().ifPresent(System.out::println);
+
+
+        List<Integer> list = new ArrayList<>();
+        Optional<Integer> optional = Optional.of(2);
+        Integer integer = optional.orElse(2);
+        Integer integer1 = optional.orElseThrow(IllegalArgumentException::new);
+        optional.orElseGet(() -> 5);
+        optional.ifPresent(list::add);
+        boolean present = optional.isPresent();
+        Integer integer2 = optional.map(i -> i * 5).orElse(3);
+        Integer integer3 = optional.filter(i -> i < 3).orElse(0);
+    }
+
+    public static void map() {
+        Map<String, Optional<Integer>> map = new HashMap<>();
+        map.put("A", Optional.of(1));
+        map.put("B", Optional.of(2));
+        map.put("C", Optional.empty());
+        map.put("D", Optional.of(3));
+        System.out.println(map.get("A"));
+        System.out.println(map.get("B"));
+        System.out.println(map.get("C"));
+        System.out.println(map.get("D"));
+        System.out.println(map.get("E"));
+
+
     }
 }
